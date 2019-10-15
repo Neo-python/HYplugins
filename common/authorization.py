@@ -1,3 +1,4 @@
+import time
 import config
 import json
 from functools import wraps
@@ -8,6 +9,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
+from init import Redis
 
 auth = HTTPTokenAuth()
 serializer = Serializer(secret_key=config.SECRET_KEY, expires_in=3600 * 24 * 90)
@@ -117,3 +119,46 @@ def get_user_info(error_out: bool = True):
             return result
     elif error_out is True:
         raise ViewException(error_code=5001, message='用户数据异常!!!')
+
+
+class Token:
+
+    def __init__(self, user):
+        self.user = user
+
+    def generate_token(self, expired: float = None, **kwargs) -> str:
+        """生成token
+        :param expired:过期时间,time.time()
+        :return:token
+        """
+        if expired is not None:
+            serializer.expires_in = expired
+
+        info = {
+            **kwargs
+        }
+        self.iat = time.time()
+        info.update({'iat': self.iat})  # 记录更新时间
+        result = serializer.dumps(info)  # 直接生成token
+        return result.decode()  # bytes -> str 不然无法json
+
+    def cache(self):
+        """缓存用户信息"""
+
+        info = self.user.serialization(increase={'id'})
+        info.update({'iat': self.iat})
+        info = json.dumps(info)
+        Redis.set(name=f'UserInfo_{self.user.id}', value=info)
+
+    def get_cache(self, iat):
+        """获取缓存"""
+
+        result = Redis.get(name=f'UserInfo_{self.user.id}')
+        if result is None:  # 验证缓存是否存在
+            return False
+
+        info = json.loads(result)  # 还原缓存信息
+        if iat == info['iat']:  # 验证token 有效性
+            return info
+        else:
+            return False

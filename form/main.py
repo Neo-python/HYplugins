@@ -2,9 +2,10 @@ import json
 from flask import request
 from flask_wtf import FlaskForm
 from plugins.HYplugins.error import FormException
+from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 from wtforms import widgets
 from wtforms.compat import text_type
-from wtforms import Field, ValidationError
+from wtforms import Field, ValidationError, IntegerField
 from wtforms.validators import InputRequired as InputRequiredBase, StopValidation, NumberRange, DataRequired
 
 
@@ -71,3 +72,18 @@ class InputRequired(InputRequiredBase):
 
             field.errors[:] = []
             raise StopValidation(message)
+
+
+class ListPage:
+    """分页"""
+    page = IntegerField(validators=[
+        DataRequired(message=VM.say('required', '页码'))
+    ],
+        default=1
+    )
+
+    limit = IntegerField(validators=[
+        NumberRange(min=1, max=50, message=VM.say('system_number', 1, 50))
+    ],
+        default=10
+    )

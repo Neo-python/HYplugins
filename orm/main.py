@@ -1,3 +1,4 @@
+import uuid
 import datetime
 import copy
 import decimal
@@ -254,3 +255,14 @@ class PasswordModel(object):
         :param raw: 用户输入的原始密码
         """
         return check_password_hash(self._password, raw)
+
+
+class UUIDModel(object):
+    """唯一编号字段"""
+
+    @staticmethod
+    def default_uuid():
+        """默认uuid"""
+        return uuid.uuid1().hex
+
+    uuid = db.Column(db.String(length=32), default=default_uuid, comment='唯一编号')
