@@ -15,6 +15,6 @@ class CodeField:
     """验证码"""
     code = wtforms.StringField(validators=[
         DataRequired(message=VM.say('required', '验证码')),
-        Length(min=13, max=13, message=VM.say('length_unite', '验证码', 4))
+        Length(min=4, max=4, message=VM.say('length_unite', '验证码', 4))
     ]
     )

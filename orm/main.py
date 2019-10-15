@@ -260,8 +260,7 @@ class PasswordModel(object):
 class UUIDModel(object):
     """唯一编号字段"""
 
-    @staticmethod
-    def default_uuid():
+    def default_uuid(self):
         """默认uuid"""
         return uuid.uuid1().hex
 
