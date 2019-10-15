@@ -14,6 +14,26 @@ def result_format(error_code: int = 0, data=None, **kwargs):
     return jsonify(r)
 
 
+def orm_func(func_name: str, *args, **kwargs):
+    """orm序列化,funcs参数便捷生成函数"""
+    if not len(args):
+        args = tuple()
+    if not len(kwargs):
+        kwargs = dict()
+    return func_name, args, kwargs
+
+
+def paginate_info(paginate, items):
+    """分页信息"""
+    result = {
+        'total': paginate.total,
+        'page': paginate.page,
+        'max_page': paginate.pages,
+        'items': items
+    }
+    return result
+
+
 class NeoDict(dict):
 
     def __getattr__(self, item):
