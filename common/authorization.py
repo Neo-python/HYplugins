@@ -12,7 +12,7 @@ from plugins.HYplugins.common import NeoDict
 from init import Redis
 
 auth = HTTPTokenAuth()
-serializer = Serializer(secret_key=config.SECRET_KEY, expires_in=3600 * 24 * 90)
+serializer = Serializer(secret_key=config.SECRET_KEY, expires_in=60 * 60 * 24 * 30)
 
 
 def authorization_to_dict(authorization: str) -> dict:
@@ -42,11 +42,11 @@ def _verify_token(authorization):
         redis_cache = Redis.get(f'UserInfo_{sub}')
         # 检查记录是否存在
         if not redis_cache:
-            raise ViewException(error_code=4003, message='token失效')
+            raise ViewException(error_code=4003, message='token信息错误')
         # 存在记录,进行数据转换
         redis_cache = NeoDict(**json.loads(redis_cache))
         if redis_cache.get('iat') != payload.get('iat'):
-            raise ViewException(error_code=4003, message='token失效')
+            raise ViewException(error_code=4002, message='token过期')
     except AssertionError as err:
         raise ViewException(error_code=4001, message=str(err))
 

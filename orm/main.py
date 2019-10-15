@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, SmallInteger, TIMESTAMP, Integer
 from plugins.HYplugins.error import NotFound
+from plugins.HYplugins.common.authorization import Token
 
 
 class Query(BaseQuery):
@@ -36,7 +37,7 @@ class Query(BaseQuery):
     def first_or_404(self):
         rv = self.first()
         if not rv:
-            raise NotFound(error_code=1004, message=f'{self.__class__} 数据未找到!')
+            raise NotFound(error_code=1004, message=f'{self.column_descriptions[0]["entity"].__doc__}数据未找到!')
         return rv
 
 
@@ -255,6 +256,17 @@ class PasswordModel(object):
         :param raw: 用户输入的原始密码
         """
         return check_password_hash(self._password, raw)
+
+
+class UserToken(object):
+    """用户类型模型,token相关方法"""
+
+    def generate_token(self):
+        """生成缓存"""
+        builder = Token(user=self)
+        token = builder.generate_token(sub=self.uuid)
+        builder.cache()
+        return token
 
 
 class UUIDModel(object):
