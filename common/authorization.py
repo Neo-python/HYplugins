@@ -30,7 +30,7 @@ def authorization_to_dict(authorization: str) -> dict:
 @auth.verify_token
 def _verify_token(authorization):
     """验证token,@auth.login_required 所调用的验证逻辑
-    :param authorization:HTTP.Headers.Authorization
+    :param authorization:HTTP.Headers.Authorization -> Bearer
     """
     authorization = authorization_to_dict(authorization)  # 解析Authorization数据,返回dict类型数据集合
 
@@ -39,10 +39,13 @@ def _verify_token(authorization):
         assert token, 'authorization failed'
         payload = serializer.loads(token)  # 尝试解密token
         sub = payload.get('sub')  # 获取用户uuid
-        iat = """Redis.get(f'{config.USER_REDIS_KEY_PREFIX}_IAT_{sub}')"""
-        if not iat:
+        redis_cache = Redis.get(f'UserInfo_{sub}')
+        # 检查记录是否存在
+        if not redis_cache:
             raise ViewException(error_code=4003, message='token失效')
-        if float(iat) != payload.get('iat'):
+        # 存在记录,进行数据转换
+        redis_cache = NeoDict(**json.loads(redis_cache))
+        if redis_cache.get('iat') != payload.get('iat'):
             raise ViewException(error_code=4003, message='token失效')
     except AssertionError as err:
         raise ViewException(error_code=4001, message=str(err))
@@ -50,7 +53,7 @@ def _verify_token(authorization):
     except BadSignature:
         raise ViewException(error_code=4002, message='signature failure')
     else:
-        g.user = payload  # 刷新token时调用
+        g.user = redis_cache  # 刷新token时调用
         return True
 
 
@@ -145,10 +148,10 @@ class Token:
     def cache(self):
         """缓存用户信息"""
 
-        info = self.user.serialization(increase={'id'})
+        info = self.user.serialization()
         info.update({'iat': self.iat})
         info = json.dumps(info)
-        Redis.set(name=f'UserInfo_{self.user.id}', value=info)
+        Redis.set(name=f'UserInfo_{self.user.uuid}', value=info)
 
     def get_cache(self, iat):
         """获取缓存"""
