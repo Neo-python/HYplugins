@@ -4,7 +4,7 @@ import decimal
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, SmallInteger, TIMESTAMP, Integer
-from plugins.HYplugins.error.main import NotFound
+from plugins.HYplugins.error import NotFound
 
 
 class Query(BaseQuery):

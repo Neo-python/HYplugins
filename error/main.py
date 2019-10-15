@@ -1,18 +1,12 @@
 """错误处理"""
-from werkzeug.exceptions import HTTPException
 
 
-class NeoException(HTTPException):
-    """错误基类"""
-    message = 'sorry, we made a mistake (*￣︶￣)!'
-    error_code = 999
+class ViewException(Exception):
+    """view错误基类"""
 
-    def __init__(self, error_code: int = None, code: int = 200, message='', **kwargs):
-        if error_code:
-            self.error_code = error_code
-        self.code = code
-        if message:
-            self.message = message
+    def __init__(self, error_code: int, message='', **kwargs):
+        self.error_code = error_code
+        self.message = message
         self.kwargs = kwargs
 
     @property
@@ -21,7 +15,19 @@ class NeoException(HTTPException):
         return {'error_code': self.error_code, 'message': self.message, **self.kwargs}
 
 
-class NotFound(NeoException):
+class FormException(ViewException):
+    """表单验证错误"""
+
+    def __init__(self, error_code=1001, *args, **kwargs):
+        super().__init__(error_code=error_code, *args, **kwargs)
+
+    @property
+    def info(self):
+        """表单错误信息"""
+        return {'error_code': self.error_code, 'message': self.message, **self.kwargs}
+
+
+class NotFound(ViewException):
     message = 'the resource are not found O__O...'
     error_code = 1004
 
