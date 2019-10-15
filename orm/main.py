@@ -36,7 +36,7 @@ class Query(BaseQuery):
     def first_or_404(self):
         rv = self.first()
         if not rv:
-            raise NotFound()
+            raise NotFound(error_code=1004, message=f'{self.__class__} 数据未找到!')
         return rv
 
 
