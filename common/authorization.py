@@ -153,7 +153,7 @@ class Token:
         info = self.user.serialization()
         info.update({'iat': self.iat})
         info = json.dumps(info)
-        Redis.set(name=f'{self.__class__.__name__}_Info_{self.user.uuid}', value=info)
+        Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
 
     def get_cache(self, iat):
         """获取缓存"""
