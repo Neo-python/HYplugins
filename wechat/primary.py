@@ -11,12 +11,12 @@ class WechatApi:
         self.app_id = app_id
         self.app_secret = app_secret
 
-    def get_open_id(self):
+    def get_open_id(self, code: str):
         """获取open_id"""
-        if request.get_json(force=True).get('code'):
-            return request.get_json(force=True).get('code')
-        real_code = request.get_json(force=True).get('real_code')
-        url = f'https://api.weixin.qq.com/sns/jscode2session?appid={self.app_id}&secret={self.app_secret}&js_code={real_code}&grant_type=authorization_code'
+        # if request.get_json(force=True).get('code'):
+        #     return request.get_json(force=True).get('code')
+        # real_code = request.get_json(force=True).get('code')
+        url = f'https://api.weixin.qq.com/sns/jscode2session?appid={self.app_id}&secret={self.app_secret}&js_code={code}&grant_type=authorization_code'
         result = requests.get(url)
         result = result.json()
         return result['openid']
