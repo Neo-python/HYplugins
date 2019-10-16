@@ -39,7 +39,8 @@ def _verify_token(authorization):
         assert token, 'authorization failed'
         payload = serializer.loads(token)  # 尝试解密token
         sub = payload.get('sub')  # 获取用户uuid
-        redis_cache = Redis.get(f'UserInfo_{sub}')
+        user_type = payload.get('user_type')
+        redis_cache = Redis.get(f'{user_type}_Info_{sub}')
         # 检查记录是否存在
         if not redis_cache:
             raise ViewException(error_code=4003, message='token信息错误')
