@@ -11,7 +11,7 @@ class OpenIdField:
 class PhoneField:
     """手机"""
     phone = wtforms.StringField(validators=[
-        Regexp('1\d{10}'),
+        Regexp('1\d{10}', message='手机号错误,请检查手机号格式'),
         DataRequired(message=VM.say('required', '手机号')),
     ])
 
