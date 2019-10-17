@@ -1,5 +1,6 @@
 """通用函数插件"""
 import random
+import datetime
 from flask import jsonify
 
 
@@ -47,3 +48,10 @@ def generate_verify_code(length: int = 4) -> str:
     """
 
     return ''.join([str(random.randint(0, 9)) for _ in range(length)])
+
+
+def generate_order_id():
+    """生成订单编号"""
+    randint = generate_verify_code()
+    time = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+    return time + randint
