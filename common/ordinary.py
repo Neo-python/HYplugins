@@ -24,6 +24,16 @@ def orm_func(func_name: str, *args, **kwargs):
     return func_name, args, kwargs
 
 
+def join_key(key: str, items: list) -> dict:
+    """整理数据,通过字段值作为key"""
+    result = dict()
+
+    for item in items:
+        result.update({getattr(item, key): item.serialization()})
+
+    return result
+
+
 def paginate_info(paginate, items):
     """分页信息"""
     result = {
