@@ -23,3 +23,23 @@ class CodeField:
         Length(min=4, max=4, message=VM.say('length_unite', '验证码', 4))
     ]
     )
+
+
+class OrderUuidField:
+    """订单编号"""
+
+    order_uuid = wtforms.StringField(validators=[
+        DataRequired(message=VM.say('required', '订单编号')),
+        Length(min=24, max=24, message=VM.say('length_unite', '订单编号', 24))
+    ]
+    )
+
+
+class UuidField:
+    """厂家/驾驶员/管理员uuid"""
+
+    uuid = wtforms.StringField(validators=[
+        DataRequired(message=VM.say('required', '用户唯一编号')),
+        Length(min=32, max=32, message=VM.say('length_unite', '用户唯一编号', 32))
+    ]
+    )
