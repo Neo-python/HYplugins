@@ -265,11 +265,12 @@ class UUIDModel(object):
         """默认uuid"""
         return uuid.uuid1().hex
 
-    uuid = db.Column(db.String(length=32), default=default_uuid, index=True, unique=True, comment='唯一编号')
+    uuid = db.Column(db.String(length=32), default=default_uuid, index=True, unique=True, nullable=False,
+                     comment='唯一编号')
 
 
 class OrderIdModel(object):
     """订单唯一编号"""
 
     order_uuid = db.Column(db.String(length=24), default=common.generate_order_id, index=True, unique=True,
-                           comment='唯一编号')
+                           nullable=False, comment='唯一编号')
