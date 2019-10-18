@@ -1,4 +1,5 @@
 import wtforms
+from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, Optional, Regexp
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
@@ -43,3 +44,12 @@ class UuidField:
         Length(min=32, max=32, message=VM.say('length_unite', '用户唯一编号', 32))
     ]
     )
+
+
+class IdSortField:
+    """按数据创建时间排序字段"""
+
+    create_time_sort = IntegerField(validators=[
+        Optional(),
+        NumberRange(min=0, max=1, message=VM.say('system_number', 0, 1))
+    ])
