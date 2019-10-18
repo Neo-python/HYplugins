@@ -68,7 +68,7 @@ class CoreApi:
         """
         interface_path = '/send_sms/batch/'
         url = f'{self.interface}{interface_path}'
-        result = requests.get(url, params=kwargs)
+        result = requests.post(url, json=kwargs)
         return self.understand(api_result=result)
 
     @staticmethod
