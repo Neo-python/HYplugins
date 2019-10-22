@@ -274,3 +274,9 @@ class OrderIdModel(object):
 
     order_uuid = db.Column(db.String(length=24), default=common.generate_order_id, index=True,
                            unique=True, nullable=False, comment='唯一编号')
+
+
+class Coordinate(object):
+    """坐标"""
+    longitude = db.Column(db.Float, comment='经度')
+    latitude = db.Column(db.Float, comment='纬度')
