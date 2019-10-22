@@ -9,6 +9,11 @@ class CoreApi:
     """核心中台接口"""
     interface = f'http://127.0.0.1:{config.core_server_port}'
 
+    @staticmethod
+    def understand(api_result) -> dict:
+        """处理接口响应"""
+        return jsonify(json.loads(api_result.content.decode()))
+
     def send_sms(self, **kwargs):
         """通知中台发送短信
         :param kwargs:
@@ -71,7 +76,14 @@ class CoreApi:
         result = requests.post(url, json=kwargs)
         return self.understand(api_result=result)
 
-    @staticmethod
-    def understand(api_result) -> dict:
-        """处理接口响应"""
-        return jsonify(json.loads(api_result.content.decode()))
+    def position_distance(self, **kwargs):
+        """计算位置距离
+        origin原点只支持单点
+        destinations目标点支持多点
+        :return:
+        """
+
+        interface_path = '/position/distance/'
+        url = f'{self.interface}{interface_path}'
+        result = requests.post(url, json=kwargs)
+        return self.understand(api_result=result)
