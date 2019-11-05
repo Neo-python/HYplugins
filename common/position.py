@@ -30,6 +30,7 @@ class Position:
         if result['status'] == 0:
             return result['result']
         else:
+            print(result)
             raise ViewException(error_code=4007, message='position api error')
 
 
