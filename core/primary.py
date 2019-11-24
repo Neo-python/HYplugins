@@ -12,7 +12,6 @@ class CoreApi:
     @staticmethod
     def understand(api_result) -> dict:
         """处理接口响应"""
-        print(api_result.json(), type(api_result.json()))
         return jsonify(json.loads(api_result.content.decode()))
 
     def send_sms(self, **kwargs):
@@ -53,7 +52,7 @@ class CoreApi:
         result = requests.get(url, params=kwargs)
         return self.understand(api_result=result)
 
-    def get_open_id(self, **kwargs):
+    def get_open_id(self, **kwargs) -> dict:
         """获取open_id
         :param kwargs: code:微信code
         :param kwargs: port:当前应用端口号
@@ -62,7 +61,8 @@ class CoreApi:
         interface_path = '/get_open_id/'
         url = f'{self.interface}{interface_path}'
         result = requests.get(url, params=kwargs)
-        return self.understand(api_result=result)
+        result = result.json()
+        return result['data']
 
     def batch_sms(self, **kwargs):
         """批量发送短信
