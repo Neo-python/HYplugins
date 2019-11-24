@@ -62,6 +62,7 @@ class CoreApi:
         url = f'{self.interface}{interface_path}'
         result = requests.get(url, params=kwargs)
         result = result.json()
+        print(result, type(result))
         return result['data']
 
     def batch_sms(self, **kwargs):
