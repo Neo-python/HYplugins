@@ -1,10 +1,13 @@
 """微信相关接口"""
+import config
 import requests
-from flask import request
+from init import Redis
 
 
 class WechatApi:
     """微信接口"""
+
+    access_token_redis_key = "WechatAccessToken"
 
     def __init__(self, app_id: str, app_secret: str):
         """对象初始化"""
@@ -19,5 +22,19 @@ class WechatApi:
         url = f'https://api.weixin.qq.com/sns/jscode2session?appid={self.app_id}&secret={self.app_secret}&js_code={code}&grant_type=authorization_code'
         result = requests.get(url)
         result = result.json()
-        print(result)
         return result['openid']
+
+    def get_access_token(self) -> str:
+        """优先从redis缓存中获取"""
+        access_token = Redis.get(self.access_token_redis_key)
+        if access_token:
+            return access_token
+        else:
+            return self.update_access_token()
+
+    def update_access_token(self) -> str:
+        """向腾讯服务器请求"""
+        url = f'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={config.APP_ID}&secret={config.SECRET_KEY}'
+
+        result = requests.get(url=url)
+        print(result)
