@@ -12,6 +12,7 @@ class CoreApi:
     @staticmethod
     def understand(api_result) -> dict:
         """处理接口响应"""
+        print(api_result.json())
         return jsonify(json.loads(api_result.content.decode()))
 
     def send_sms(self, **kwargs):
