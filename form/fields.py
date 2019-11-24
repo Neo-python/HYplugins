@@ -1,4 +1,5 @@
 import wtforms
+from init import core_api
 from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, Optional, Regexp
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
@@ -7,6 +8,14 @@ from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 class WechatCodeField:
     """微信code"""
     wechat_code = wtforms.StringField(validators=[DataRequired(message=VM.say('required', 'wechat_code'))])
+
+    def validate_wechat_code(self, *args):
+        """验证微信code"""
+        open_id = core_api.get_open_id(code=self.wechat_code.data)
+        if open_id:
+            self.open_id = open_id
+        else:
+            raise wtforms.ValidationError(message='wechat_code error')
 
 
 class PhoneField:
