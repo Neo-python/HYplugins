@@ -13,7 +13,7 @@ class WechatCodeField:
     def validate_wechat_code(self, *args):
         """验证微信code"""
         open_id = core_api.get_open_id(code=self.wechat_code.data, port=config.server_port)
-        print(open_id)
+        print(open_id, 'open_id', open_id.__dir__())
         if open_id:
             self.open_id = open_id
         else:
