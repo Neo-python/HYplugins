@@ -1,3 +1,4 @@
+import config
 import wtforms
 from init import core_api
 from wtforms.fields import IntegerField
@@ -11,7 +12,7 @@ class WechatCodeField:
 
     def validate_wechat_code(self, *args):
         """验证微信code"""
-        open_id = core_api.get_open_id(code=self.wechat_code.data)
+        open_id = core_api.get_open_id(code=self.wechat_code.data, port=config.server_port)
         if open_id:
             self.open_id = open_id
         else:

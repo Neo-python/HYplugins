@@ -54,8 +54,8 @@ class CoreApi:
 
     def get_open_id(self, **kwargs):
         """获取open_id
-        :param kwargs:
-        :param kwargs: real_code:str
+        :param kwargs: code:微信code
+        :param kwargs: port:当前应用端口号
         :return:
         """
         interface_path = '/get_open_id/'
