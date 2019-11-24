@@ -1,7 +1,6 @@
 """微信相关接口"""
 import config
 import requests
-from init import Redis
 
 
 class WechatApi:
@@ -26,7 +25,7 @@ class WechatApi:
 
     def get_access_token(self) -> str:
         """优先从redis缓存中获取"""
-        access_token = Redis.get(self.access_token_redis_key)
+        access_token = self.Redis.get(self.access_token_redis_key)
         if access_token:
             return access_token
         else:
@@ -38,3 +37,7 @@ class WechatApi:
 
         result = requests.get(url=url)
         print(result)
+
+    def __call__(self, *args, **kwargs):
+        from init import Redis
+        self.Redis = Redis
