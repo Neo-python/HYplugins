@@ -59,6 +59,7 @@ class CoreApi:
         :param kwargs: port:当前应用端口号
         :return:
         """
+        print(kwargs)
         interface_path = '/get_open_id/'
         url = f'{self.interface}{interface_path}'
         result = requests.get(url, params=kwargs)
