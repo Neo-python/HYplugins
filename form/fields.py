@@ -4,9 +4,9 @@ from wtforms.validators import DataRequired, Length, NumberRange, InputRequired,
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
 
-class OpenIdField:
-    """微信open_id"""
-    open_id = wtforms.StringField(validators=[DataRequired(message=VM.say('required', 'open_id'))])
+class WechatCodeField:
+    """微信code"""
+    wechat_code = wtforms.StringField(validators=[DataRequired(message=VM.say('required', 'wechat_code'))])
 
 
 class PhoneField:
