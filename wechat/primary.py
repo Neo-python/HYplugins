@@ -19,4 +19,5 @@ class WechatApi:
         url = f'https://api.weixin.qq.com/sns/jscode2session?appid={self.app_id}&secret={self.app_secret}&js_code={code}&grant_type=authorization_code'
         result = requests.get(url)
         result = result.json()
+        print(result)
         return result['openid']
