@@ -16,14 +16,23 @@ class BaseForm(FlaskForm):
         """表单验证"""
         if request.method == 'GET':
             if self.validate() is False:
-                raise FormException(error_code=1001, message='请求参数错误.', error_fields=self.errors)
+                raise FormException(error_code=1001, message=self.format_error(), error_fields=self.errors)
             else:
                 return self
         else:
             if self.validate_on_submit() is False:
-                raise FormException(error_code=1001, message='请求参数错误.', error_fields=self.errors)
+                raise FormException(error_code=1001, message=self.format_error(), error_fields=self.errors)
             else:
                 return self
+
+    def format_error(self):
+        """格式化错误信息"""
+        message = "表单填写错误,请检查."
+        try:
+            message = self.errors.popitem()[1][0]
+        except Exception as err:
+            print(err)
+        return message
 
 
 class StringField(Field):
