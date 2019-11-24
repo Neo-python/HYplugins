@@ -3,6 +3,7 @@ import config
 import requests
 import json
 from flask import jsonify
+from plugins.HYplugins.error import ViewException
 
 
 class CoreApi:
@@ -62,7 +63,8 @@ class CoreApi:
         url = f'{self.interface}{interface_path}'
         result = requests.get(url, params=kwargs)
         result = result.json()
-        print(result, type(result))
+        if result.get('error_code') != 0:
+            raise ViewException(error_code=5000, message="服务器未能正常调用微信接口,请联系管理员处理.")
         return result['data']
 
     def batch_sms(self, **kwargs):
