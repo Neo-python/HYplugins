@@ -11,7 +11,7 @@ class WechatApi:
         self.app_id = app_id
         self.app_secret = app_secret
 
-    def get_open_id(self, code: str):
+    def get_open_id(self, code: str) -> str:
         """获取open_id"""
         # if request.get_json(force=True).get('code'):
         #     return request.get_json(force=True).get('code')
