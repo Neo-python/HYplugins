@@ -53,7 +53,7 @@ def _verify_token(authorization):
         raise ViewException(error_code=4001, message=str(err))
 
     except BadSignature:
-        raise ViewException(error_code=4002, message='signature failure')
+        raise ViewException(error_code=4003, message='token信息错误')
     else:
         g.user = redis_cache  # 刷新token时调用
         return True
@@ -119,11 +119,11 @@ def get_user_info(error_out: bool = True):
         try:
             result = NeoDict(**json.loads(result))
         except:
-            raise ViewException(error_code=5001, message='用户数据异常!!!')
+            raise ViewException(error_code=4004, message='用户数据异常!!!')
         else:
             return result
     elif error_out is True:
-        raise ViewException(error_code=5001, message='用户数据异常!!!')
+        raise ViewException(error_code=4004, message='用户数据异常!!!')
 
 
 class Token:
