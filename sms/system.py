@@ -1,5 +1,4 @@
 """系统/管理员后台类短信功能"""
-from models.HYModels.system import Admin
 
 
 class SystemSms:
