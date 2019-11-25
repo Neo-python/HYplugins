@@ -31,7 +31,7 @@ class Position:
             return result['result']
         else:
             print(result)
-            raise ViewException(error_code=4007, message='position api error')
+            raise ViewException(error_code=5001, message='应用未能正常调用地图接口,请联系管理员处理.')
 
 
 position = Position(key=config.POSITION_APP_KEY)

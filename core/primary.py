@@ -66,7 +66,7 @@ class CoreApi:
         result = result.json()
         if result.get('error_code') != 0:
             print(result)
-            raise ViewException(error_code=5000, message="服务器未能正常调用微信接口,请联系管理员处理.")
+            raise ViewException(error_code=5000, message="应用未能正常调用微信接口,请联系管理员处理.")
         return result['data']
 
     def batch_sms(self, **kwargs):
