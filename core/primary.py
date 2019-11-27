@@ -27,6 +27,17 @@ class CoreApi:
         result = requests.post(url, json=kwargs)
         return self.understand(api_result=result)
 
+    def notice_sms(self, **kwargs):
+        """通知中台发送管理员通知短信
+        :param kwargs:
+        :param kwargs: params: list
+        :param kwargs: template_id: str
+        """
+        interface_path = '/send_sms/notice_manager/'
+        url = f'{self.interface}{interface_path}'
+        result = requests.post(url, json=kwargs)
+        return self.understand(api_result=result)
+
     def upload_url(self, **kwargs) -> dict:
         """通知中通获取图片上传授权地址
         :param kwargs:
@@ -59,13 +70,11 @@ class CoreApi:
         :param kwargs: port:当前应用端口号
         :return:
         """
-        print(kwargs)
         interface_path = '/get_open_id/'
         url = f'{self.interface}{interface_path}'
         result = requests.get(url, params=kwargs)
         result = result.json()
         if result.get('error_code') != 0:
-            print(result)
             raise ViewException(error_code=5000, message="应用未能正常调用微信接口,请联系管理员处理.")
         return result['data']
 
