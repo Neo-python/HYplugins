@@ -17,7 +17,7 @@ class WechatCodeField:
         if open_id:
             self.open_id = open_id
         else:
-            raise wtforms.ValidationError(message='wechat_code error')
+            raise wtforms.ValidationError(message='微信码错误.')
 
 
 class PhoneField:
