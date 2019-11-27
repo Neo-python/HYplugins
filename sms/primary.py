@@ -31,7 +31,7 @@ class SMS:
         """群发"""
         try:
             # 签名参数未提供或者为空时，会使用默认签名发送短信
-            result = self.sms.send_with_param(nation_code, phone_numbers, template_id, params=params, sign=sms_sign,
+            result = self.multi_sms.send_with_param(nation_code, phone_numbers, template_id, params=params, sign=sms_sign,
                                               extend="", ext="")
         except HTTPError as e:
             print(e)
