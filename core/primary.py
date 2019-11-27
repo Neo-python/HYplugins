@@ -35,7 +35,6 @@ class CoreApi:
         """
         interface_path = '/send_sms/notice_manager/'
         url = f'{self.interface}{interface_path}'
-        print(kwargs)
         result = requests.post(url, json=kwargs)
         return self.understand(api_result=result)
 
