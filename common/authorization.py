@@ -50,7 +50,7 @@ def _verify_token(authorization):
         if redis_cache.get('iat') != payload.get('iat'):
             raise ViewException(error_code=4002, message='token过期')
     except AssertionError as err:
-        raise ViewException(error_code=4001, message=str(err))
+        raise ViewException(error_code=4001, message="错误的token", system_message=str(err))
 
     except BadSignature:
         raise ViewException(error_code=4003, message='token信息错误')
