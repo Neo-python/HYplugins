@@ -127,7 +127,7 @@ class Common(object):
 
         db.session.flush()
 
-    def set_attrs(self, attrs_dict):
+    def set_attrs(self, attrs_dict: dict):
         """批量更新模型的字段数据
         配合WTF表单快速更新模型数据
         示例: model.set_attrs(wtf_form.data)
