@@ -163,6 +163,10 @@ class Common(object):
             if isinstance(value, datetime.datetime):
                 value = value.strftime('%Y-%m-%d %H:%M:%S')
 
+            # 格式化时间类型字段
+            if isinstance(value, datetime.time):
+                value = value.strftime('%H:%M:%S')
+
             # 格式化Decimal类型字段
             elif isinstance(value, decimal.Decimal):
                 value = float(value)
