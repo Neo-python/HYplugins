@@ -4,12 +4,13 @@ import datetime
 from flask import jsonify
 
 
-def result_format(error_code: int = 0, data=None, **kwargs):
+def result_format(error_code: int = 0, data=None, message: str = '', **kwargs):
     if data is None:
         data = ''
     r = {
         'error_code': error_code,
         'data': data,
+        'message': message,
         **kwargs
     }
     return jsonify(r)
