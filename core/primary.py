@@ -79,7 +79,7 @@ class CoreApi:
         return result['data']
 
     def batch_sms(self, **kwargs):
-        """批量发送短信
+        """批量发送短信,此接口为异步接口.
         :param kwargs:
         :param kwargs: template_id:str 短信模板编号
         :param kwargs: phone_list:list 短信接收者手机号
