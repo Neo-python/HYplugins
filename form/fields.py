@@ -1,8 +1,8 @@
 import config
 import wtforms
-from init import core_api
 from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, Optional, Regexp
+from plugins import core_api
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
 
