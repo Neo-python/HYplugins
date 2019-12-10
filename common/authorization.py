@@ -4,10 +4,10 @@ from functools import wraps
 from flask import request, g
 from flask_httpauth import HTTPTokenAuth
 from itsdangerous import BadSignature
+import plugins
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
-from plugins import Redis
 
 auth = HTTPTokenAuth()
 
@@ -34,10 +34,10 @@ def _verify_token(authorization):
     token = authorization.get('token', None)  # 获取token值
     try:
         assert token, 'authorization failed'
-        payload = serializer.loads(token)  # 尝试解密token
+        payload = plugins.serializer.loads(token)  # 尝试解密token
         sub = payload.get('sub')  # 获取用户uuid
         user_type = payload.get('user_type')
-        redis_cache = Redis.get(f'{user_type}_Info_{sub}')
+        redis_cache = plugins.Redis.get(f'{user_type}_Info_{sub}')
 
         # 检查记录是否存在
         if not redis_cache:
@@ -134,14 +134,14 @@ class Token:
         :return:token
         """
         if expired is not None:
-            serializer.expires_in = expired
+            plugins.serializer.expires_in = expired
 
         info = {
             **kwargs
         }
         self.iat = time.time()
         info.update({'iat': self.iat})  # 记录更新时间
-        result = serializer.dumps(info)  # 直接生成token
+        result = plugins.serializer.dumps(info)  # 直接生成token
         return result.decode()  # bytes -> str 不然无法json
 
     def cache(self):
@@ -150,12 +150,12 @@ class Token:
         info = self.user.serialization()
         info.update({'iat': self.iat})
         info = json.dumps(info)
-        Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
+        plugins.Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
 
     def get_cache(self, iat):
         """获取缓存"""
 
-        result = Redis.get(name=f'{self.__class__.__name__}_Info_{self.user.id}')
+        result = plugins.Redis.get(name=f'{self.__class__.__name__}_Info_{self.user.id}')
         if result is None:  # 验证缓存是否存在
             return False
 
