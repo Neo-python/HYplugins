@@ -42,7 +42,7 @@ class OrderUuidField:
 
     order_uuid = wtforms.StringField(validators=[
         DataRequired(message=VM.say('required', '订单编号')),
-        Length(min=24, max=24, message=VM.say('length_unite', '订单编号', 24))
+        Length(min=12, max=12, message=VM.say('length_unite', '订单编号', 12))
     ]
     )
 
