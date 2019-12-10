@@ -1,4 +1,5 @@
 import json
+import copy
 from flask import request
 from flask_wtf import FlaskForm
 from plugins.HYplugins.error import FormException
@@ -16,12 +17,14 @@ class BaseForm(FlaskForm):
         """表单验证"""
         if request.method == 'GET':
             if self.validate() is False:
-                raise FormException(error_code=1001, message=self.format_error(), error_fields=self.errors)
+                error_fields = copy.deepcopy(self.errors)
+                raise FormException(error_code=1001, message=self.format_error(), error_fields=error_fields)
             else:
                 return self
         else:
             if self.validate_on_submit() is False:
-                raise FormException(error_code=1001, message=self.format_error(), error_fields=self.errors)
+                error_fields = copy.deepcopy(self.errors)
+                raise FormException(error_code=1001, message=self.format_error(), error_fields=error_fields)
             else:
                 return self
 
