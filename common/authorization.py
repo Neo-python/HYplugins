@@ -5,7 +5,6 @@ from flask import request, g
 from flask_httpauth import HTTPTokenAuth
 from itsdangerous import BadSignature
 import plugins
-from plugins.HYplugins import serializer
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
@@ -35,7 +34,7 @@ def _verify_token(authorization):
     token = authorization.get('token', None)  # 获取token值
     try:
         assert token, 'authorization failed'
-        payload = serializer.loads(token)  # 尝试解密token
+        payload = plugins.serializer.loads(token)  # 尝试解密token
         sub = payload.get('sub')  # 获取用户uuid
         user_type = payload.get('user_type')
         redis_cache = plugins.Redis.get(f'{user_type}_Info_{sub}')
@@ -135,14 +134,14 @@ class Token:
         :return:token
         """
         if expired is not None:
-            serializer.expires_in = expired
+            plugins.serializer.expires_in = expired
 
         info = {
             **kwargs
         }
         self.iat = time.time()
         info.update({'iat': self.iat})  # 记录更新时间
-        result = serializer.dumps(info)  # 直接生成token
+        result = plugins.serializer.dumps(info)  # 直接生成token
         return result.decode()  # bytes -> str 不然无法json
 
     def cache(self):

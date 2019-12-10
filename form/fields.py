@@ -1,8 +1,8 @@
 import config
 import wtforms
+import plugins
 from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, Optional, Regexp
-from plugins import core_api
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
 
@@ -12,7 +12,7 @@ class WechatCodeField:
 
     def validate_wechat_code(self, *args):
         """验证微信code"""
-        open_id = core_api.get_open_id(code=self.wechat_code.data, port=config.server_port)
+        open_id = plugins.core_api.get_open_id(code=self.wechat_code.data, port=config.server_port)
 
         if open_id:
             self.open_id = open_id
