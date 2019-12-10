@@ -284,3 +284,15 @@ class Coordinate(object):
     """坐标"""
     longitude = db.Column(db.Float, comment='经度')
     latitude = db.Column(db.Float, comment='纬度')
+
+
+class AddressInfo(object):
+    """地址与地址详情"""
+    address = db.Column(db.String(length=255), default='', comment='订单地址')
+    address_replenish = db.Column(db.String(length=255), default='', comment='订单地址补充')
+
+
+class Contact(object):
+    """联系人基本字段"""
+    contact_name = db.Column(db.String(length=20), default='', comment='联系人')
+    contact_phone = db.Column(db.String(length=13), nullable=False, comment='手机号')
