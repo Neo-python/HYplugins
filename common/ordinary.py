@@ -64,5 +64,5 @@ def generate_verify_code(length: int = 4) -> str:
 def generate_order_id():
     """生成订单编号"""
     randint = generate_verify_code()
-    time = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-    return time + randint
+    time = datetime.datetime.now().strftime("%H%f")
+    return randint + time
