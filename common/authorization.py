@@ -7,7 +7,7 @@ from itsdangerous import BadSignature
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
-from plugins import Redis, serializer
+from plugins import Redis
 
 auth = HTTPTokenAuth()
 
