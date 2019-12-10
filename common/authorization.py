@@ -1,18 +1,15 @@
 import time
-import config
 import json
 from functools import wraps
 from flask import request, g
 from flask_httpauth import HTTPTokenAuth
 from itsdangerous import BadSignature
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
-from plugins import Redis
+from plugins import Redis, serializer
 
 auth = HTTPTokenAuth()
-serializer = Serializer(secret_key=config.SECRET_KEY, expires_in=60 * 60 * 24 * 30)
 
 
 def authorization_to_dict(authorization: str) -> dict:
