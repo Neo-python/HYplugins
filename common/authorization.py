@@ -9,7 +9,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
-from init import Redis
+from plugins import Redis
 
 auth = HTTPTokenAuth()
 serializer = Serializer(secret_key=config.SECRET_KEY, expires_in=60 * 60 * 24 * 30)
