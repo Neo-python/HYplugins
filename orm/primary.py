@@ -276,7 +276,7 @@ class UUIDModel(object):
 class OrderIdModel(object):
     """订单唯一编号"""
 
-    order_uuid = db.Column(db.String(length=24), default=common.generate_order_id, index=True,
+    order_uuid = db.Column(db.String(length=12), default=common.generate_order_id, index=True,
                            unique=True, nullable=False, comment='唯一编号')
 
 
