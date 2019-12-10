@@ -66,7 +66,7 @@ def login(**login_kwargs):
         @auth.login_required
         @wraps(func)
         def inner(*args, **kwargs):
-            """自定义验证逻辑"""
+            """自定义验证逻辑,此阶段为"已验证过token信息有效性为有效"之后"""
             verify = LoginVerify()
             for func_name, func_kwargs in login_kwargs.items():
                 verify_func = getattr(verify, func_name)
