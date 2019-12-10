@@ -4,10 +4,11 @@ from functools import wraps
 from flask import request, g
 from flask_httpauth import HTTPTokenAuth
 from itsdangerous import BadSignature
+import plugins
+from plugins.HYplugins import serializer
 from plugins.common.authorization import LoginVerify
 from plugins.HYplugins.error import ViewException
 from plugins.HYplugins.common import NeoDict
-from plugins import Redis
 
 auth = HTTPTokenAuth()
 
@@ -37,7 +38,7 @@ def _verify_token(authorization):
         payload = serializer.loads(token)  # 尝试解密token
         sub = payload.get('sub')  # 获取用户uuid
         user_type = payload.get('user_type')
-        redis_cache = Redis.get(f'{user_type}_Info_{sub}')
+        redis_cache = plugins.Redis.get(f'{user_type}_Info_{sub}')
 
         # 检查记录是否存在
         if not redis_cache:
@@ -150,12 +151,12 @@ class Token:
         info = self.user.serialization()
         info.update({'iat': self.iat})
         info = json.dumps(info)
-        Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
+        plugins.Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
 
     def get_cache(self, iat):
         """获取缓存"""
 
-        result = Redis.get(name=f'{self.__class__.__name__}_Info_{self.user.id}')
+        result = plugins.Redis.get(name=f'{self.__class__.__name__}_Info_{self.user.id}')
         if result is None:  # 验证缓存是否存在
             return False
 
