@@ -267,9 +267,9 @@ class UUIDModel(object):
 
     def default_uuid(self):
         """默认uuid"""
-        return uuid.uuid1().hex
+        return uuid.uuid1().int
 
-    uuid = db.Column(db.String(length=32, collation='utf8_bin'), default=default_uuid, index=True, unique=True,
+    uuid = db.Column(db.String(length=39), default=default_uuid, index=True, unique=True,
                      nullable=False, comment='唯一编号')
 
 
