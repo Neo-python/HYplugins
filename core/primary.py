@@ -102,3 +102,15 @@ class CoreApi:
         url = f'{self.interface}{interface_path}'
         result = requests.post(url, json=kwargs)
         return self.understand(api_result=result)
+
+    def clear_token(self, **kwargs):
+        """清除用户token,强制更新其token
+        :param kwargs: port: 应用端口号,用来分辨具体应用
+        :param kwargs: uuid: 用户编号
+        :return:
+        """
+
+        interface_path = '/token/clear/'
+        url = f'{self.interface}{interface_path}'
+        result = requests.get(url, params=kwargs)
+        return self.understand(api_result=result)

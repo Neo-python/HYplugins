@@ -35,9 +35,8 @@ def _verify_token(authorization):
     try:
         assert token, 'authorization failed'
         payload = plugins.serializer.loads(token)  # 尝试解密token
-        sub = payload.get('sub')  # 获取用户uuid
-        user_type = payload.get('user_type')
-        redis_cache = plugins.Redis.get(f'{user_type}_Info_{sub}')
+        sub = payload.get('uuid')  # 获取用户uuid
+        redis_cache = plugins.Redis.get(f'UserInfo_{sub}')
 
         # 检查记录是否存在
         if not redis_cache:
