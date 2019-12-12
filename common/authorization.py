@@ -150,12 +150,12 @@ class Token:
         info = self.user.serialization()
         info.update({'iat': self.iat})
         info = json.dumps(info)
-        plugins.Redis.set(name=f'{self.user.__class__.__name__}_Info_{self.user.uuid}', value=info)
+        plugins.Redis.set(name=f'UserInfo_{self.user.uuid}', value=info)
 
     def get_cache(self, iat):
         """获取缓存"""
 
-        result = plugins.Redis.get(name=f'{self.__class__.__name__}_Info_{self.user.id}')
+        result = plugins.Redis.get(name=f'UserInfo_{self.user.uuid}')
         if result is None:  # 验证缓存是否存在
             return False
 
