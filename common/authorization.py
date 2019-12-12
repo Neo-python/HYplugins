@@ -40,7 +40,7 @@ def _verify_token(authorization):
 
         # 检查记录是否存在
         if not redis_cache:
-            raise ViewException(error_code=4003, message='token信息错误')
+            raise ViewException(error_code=4003, message='token失效,请重新登录')
         # 存在记录,进行数据转换
         redis_cache = NeoDict(**json.loads(redis_cache))
         if redis_cache.get('iat') != payload.get('iat'):
