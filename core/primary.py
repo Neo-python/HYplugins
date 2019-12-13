@@ -16,7 +16,7 @@ class CoreApi:
         return jsonify(json.loads(api_result.content.decode()))
 
     def send_sms(self, **kwargs):
-        """通知中台发送短信
+        """通知中台发送短信,接收一个参数,此参数一般情况下为短信验证码.
         :param kwargs:
         :param kwargs: phone: str
         :param kwargs: code: str
@@ -28,7 +28,7 @@ class CoreApi:
         return self.understand(api_result=result)
 
     def notice_sms(self, **kwargs):
-        """通知中台发送管理员通知短信
+        """通知中台发送管理员通知短信,群体发送.
         :param kwargs:
         :param kwargs: params: list
         :param kwargs: template_id: str
