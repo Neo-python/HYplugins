@@ -66,3 +66,15 @@ def generate_order_id():
     randint = generate_verify_code()
     time = datetime.datetime.now().strftime("%M%f")
     return randint + time
+
+
+def valid_random(core_random: str) -> bool:
+    """验证core发送的随机码"""
+    import plugins
+    key = f'CoreRandom_{core_random}'
+    result = plugins.Redis.get(key)
+    plugins.Redis.delete(key)
+    if result:
+        return True
+    else:
+        return False
