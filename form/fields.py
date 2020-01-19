@@ -3,6 +3,7 @@ import wtforms
 import plugins
 from wtforms.fields import IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, Optional, Regexp
+from models.common import SystemParameter
 from plugins.HYplugins.form.validators_message import ValidatorsMessage as VM
 
 
@@ -18,6 +19,16 @@ class WechatCodeField:
             self.open_id = open_id
         else:
             raise wtforms.ValidationError(message='微信码错误')
+
+
+class VisitorsParameterField:
+    """审核参数"""
+
+    parameter = wtforms.StringField(validators=[Length(min=255, max=255, message="长度必须为255位")])
+
+    def validate_parameter(self, *args):
+        """验证审核参数"""
+        return SystemParameter.query.filter_by(visitors_code=self.parameter).first()
 
 
 class PhoneField:
