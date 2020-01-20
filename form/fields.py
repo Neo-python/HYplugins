@@ -24,7 +24,7 @@ class WechatCodeField:
 class VisitorsParameterField:
     """审核参数"""
 
-    parameter = wtforms.StringField(validators=[Length(min=31, max=31, message="长度必须为31位")])
+    parameter = wtforms.StringField(validators=[Length(min=255, max=255, message="长度必须为255位")])
 
     def validate_parameter(self, *args):
         """验证审核参数"""
