@@ -3,6 +3,11 @@ import random
 import datetime
 from flask import jsonify
 
+PASSWORDLIBRARY = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                   'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                   'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7',
+                   '8', '9']
+
 
 def result_format(error_code: int = 0, data=None, message: str = '', **kwargs):
     if data is None:
@@ -59,6 +64,14 @@ def generate_verify_code(length: int = 4) -> str:
     """
 
     return ''.join([str(random.randint(0, 9)) for _ in range(length)])
+
+
+def generate_password(length: int = 12) -> str:
+    """生成随机密码
+    :param length: 密码长度
+    """
+    max_number = len(PASSWORDLIBRARY) - 1
+    return ''.join([PASSWORDLIBRARY[random.randint(0, max_number)] for _ in range(length)])
 
 
 def generate_order_id():
