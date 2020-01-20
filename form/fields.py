@@ -31,7 +31,7 @@ class VisitorsParameterField:
         if SystemParameter.query.filter_by(visitors_code=self.parameter.data, remark=self.server_name).first():
             return True
         else:
-            raise wtforms.ValidationError(message='')
+            raise wtforms.ValidationError(message='访客参数错误')
 
 
 class PhoneField:
