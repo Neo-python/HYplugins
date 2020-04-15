@@ -77,4 +77,4 @@ class IdSortField:
     create_time_sort = IntegerField(validators=[
         Optional(),
         NumberRange(min=0, max=1, message=VM.say('system_number', 0, 1))
-    ])
+    ], default=0)
